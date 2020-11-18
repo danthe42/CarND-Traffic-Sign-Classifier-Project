@@ -22,13 +22,11 @@ The goals / steps of this project are the following:
 [image2]: ./images/randomsigns.png "Random signs"
 [image3a]: ./images/distort_orig.jpg "Original image"
 [image3b]: ./images/distort_generated.jpg "Distorted image"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image4]: ./images/customimages.png "Custom images"
+
 
 ## Rubric Points
+
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 ---
@@ -136,33 +134,35 @@ During training, after executing the network with an image, cross entropy is alw
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+```
+Accuracy on the expanded train dataset = 100.00%
+Accuracy on the validation dataset = 95.12%
+Accuracy on the (never seen) test dataset = 93.65%
+```
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+The starting point for the neural net architecture was the LeNet architecture, which is well known, used, and proven architecture for neural networks for image recognition tasks.  
+
+Later on I adjusted a few things on this architecture: 
+
+- I increased the size of the fully connected layers (for 43 labels, it looked appropriate), 
+- Decided to change the activation functions in the convolution layer to tanh because I didn't like the original RELU, as it is unbounded.
+- Changed the second pooling operation from max_pool to avg_pool, as it gave better results.    
+
+As the model's result even on the never before seen test dataset is above 93.5%, and test results on new images downloaded from the net were correct when I examined them, in my opinion the network is working well. However, I'm sure it can be enhanced further with more work.    
 
 
 ### Test a Model on New Images
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+Here are seven German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image4]
 
-The first image might be difficult to classify because ...
+The left side of the first image is bent. The blue color on the second is much darker then the similar images in the train set (Based on a few images in the train dataset, I could not check all of them). The third and fourth are similar to each other and blurred. And the brightness is not consistent on the 5th image. 
+
+
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -170,30 +170,56 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| Stop Sign      		| Stop sign   									|
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Speed Limit (30 km/h) | Speed Limit (30 km/h) |
+| Keep right | Keep right |
+| Right-of-way at the next intersection	| Right-of-way at the next intersection	|
+| Pedestrians	| Pedestrians	|
+| Stop	| Stop      				|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This is better than the accuracy on the test set, the reason of that can be that there are many dark/too bright/very blurry traffic signs in the data sets.  
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 16th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The top 5 probabilities are logged out for each images:
 
-| Probability         	|     Prediction	        					|
-|:---------------------:|:---------------------------------------------:|
-| .60         			| Stop sign   									|
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+```
+Sign #1:
+Probability: 99.9999% Prediction: 'Speed limit (30km/h)' 
+Probability: 0.0001% Prediction: 'Speed limit (20km/h)' 
+Probability: 0.0000% Prediction: 'Speed limit (50km/h)' 
+Probability: 0.0000% Prediction: 'No entry' 
+Probability: 0.0000% Prediction: 'Speed limit (70km/h)' 
+Sign #2:
+Probability: 100.0000% Prediction: 'Keep right' 
+Probability: 0.0000% Prediction: 'Go straight or right' 
+Probability: 0.0000% Prediction: 'Dangerous curve to the right' 
+Probability: 0.0000% Prediction: 'Turn left ahead' 
+Probability: 0.0000% Prediction: 'Road work' 
+Sign #3:
+Probability: 100.0000% Prediction: 'Right-of-way at the next intersection' 
+Probability: 0.0000% Prediction: 'End of no passing by vehicles over 3.5 metric tons' 
+Probability: 0.0000% Prediction: 'Beware of ice/snow' 
+Probability: 0.0000% Prediction: 'Double curve' 
+Probability: 0.0000% Prediction: 'Slippery road' 
+Sign #4:
+Probability: 99.6848% Prediction: 'Pedestrians' 
+Probability: 0.3125% Prediction: 'Right-of-way at the next intersection' 
+Probability: 0.0022% Prediction: 'General caution' 
+Probability: 0.0002% Prediction: 'Double curve' 
+Probability: 0.0001% Prediction: 'Speed limit (100km/h)' 
+Sign #5:
+Probability: 99.9999% Prediction: 'Stop' 
+Probability: 0.0001% Prediction: 'Road work' 
+Probability: 0.0000% Prediction: 'Yield' 
+Probability: 0.0000% Prediction: 'No entry' 
+Probability: 0.0000% Prediction: 'Bicycles crossing' 
+```
 
+For the 1st, 2nd, 3rd, and 5th images, the network gave the correct result with a very high probability. Actually, I found these numbers too high, so I first thought that it's a case of overfitting. But after trying to recognize a few additional images from the net, I had to accept that it's not the case.  
 
-For the second image ... 
+I've chosen the 4th image because it's similarity with the 3rd. Exactly this is what can be seen here. The second probability is 0.3% and the probable sign candidate is just the traffic sign on the 3rd image. The network successfully "noticed" that these two are similar. The 3rd probability is very low, 0.0022%, but definitely the red triangle with the exclamation mark is the third most similar sign among the 43 traffic signs.   
 
 
