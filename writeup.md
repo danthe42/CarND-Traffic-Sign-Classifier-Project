@@ -67,7 +67,7 @@ The number of unique classes/labels in the data set is 43
 
 Here is an exploratory visualization of the data set. 
 
-It is a bar chart showing how the images are distributed among the different labels in the data sets (in percentage of the given data set size). If can be seen that there is a big variance in the data samples: In the train set, the most images are with label class 2 (Speed limit (50hm/h)), about 5.75% of all images. At the other end of the spectrum are class 0 (Speed limit (20km/h)), class 19 (Dangerous curve to the left), or class 42 (End of no passing by vehicles over 3.5 metric tons) each with very small number of samples (about 0.5 - 0.6%). 
+It is a bar chart showing how the images are distributed among the different labels in the data sets (in percentage of the given data set size). If can be seen that there is a big variance in the data samples: In the train set, the most images are with label class 2 (Speed limit (50km/h)), about 5.75% of all images. At the other end of the spectrum are class 0 (Speed limit (20km/h)), class 19 (Dangerous curve to the left), or class 42 (End of no passing by vehicles over 3.5 metric tons) each with very small number of samples (about 0.5 - 0.6%). 
 
 ![alt text][image1]
 
